@@ -5,5 +5,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 INCLUDE_DIRECTORIES(include)
 FILE(GLOB_RECURSE LIBRARY_FILES "source/*.cpp")
 ADD_LIBRARY(computations ${LIBRARY_FILES})
+
 ADD_EXECUTABLE(demo test/main.cpp)
 TARGET_LINK_LIBRARIES(demo computations)
+
+ADD_EXECUTABLE(target_language test/target_language.cpp)
