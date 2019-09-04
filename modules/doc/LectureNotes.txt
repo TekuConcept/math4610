@@ -1,0 +1,10 @@
+Lecture 3:
+
+
+The following is a list of sources for error that need to be taken into account by compoutational scientists.
+- Modeling Errors: These errors can occur when assumptions are made about the phenomena being studied. For example, one may consider a model of the solar system where the planets are assumed to be spheres, which is not the case.
+- Measurement Errors: These errors occur when instruments are used to measure physical quantities. For example, the temperature of molten lava might be measured to within one or two degrees based on the magnitude of the exact temperature. The neglected fractional part of the measurement would characterize the error.
+- * Discretization Error: In order to compute solutions to real world mathematical problems using computers, it necessary that the model be finite or discretized. For example, weather models based on systems of partial differential equations require a discretization of the continuous model to fit in the discrete framework of a computer simulation. The discretization in this case requires computing averages over finite volumes of the physcial space which is a source of error.
+- Roundoff Errors: These errors occur due to finite precision of numbers on any computer. Computers are limited by the finite amount of memory and storage. Most real numbers require an infinite number of digits (at least all irrational numbers). So the numerical values we work with will produce errors.
+- Arithmetic Operations on Machine Numbers: We need to be able to perform binary operations like addition, subtraction, multiplication, and division. If we are using finite precision machine numbers, the output will also have errors that can accumulate.
+
