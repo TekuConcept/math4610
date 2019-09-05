@@ -11,7 +11,7 @@
 int main() {
     VERBOSE("-- BEGIN --");
 
-    double epsilon;
+    float epsilon;
     int exponent;
 
     math4610::single_machine_epsilon(&epsilon, &exponent);

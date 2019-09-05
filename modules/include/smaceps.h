@@ -6,11 +6,9 @@
 #ifndef MATH4610_SMACEPS_H_
 #define MATH4610_SMACEPS_H_
 
-#include "common_types.h"
-
 namespace math4610 {
 
-    void single_machine_epsilon(double* epsilon, int* power_of_two);
+    void single_machine_epsilon(float* epsilon, int* exponent);
 
 }
 

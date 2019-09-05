@@ -7,7 +7,9 @@
 #define MATH4610_DMACEPS_H_
 
 namespace math4610 {
-    
+
+    void double_machine_epsilon(double* epsilon, int* exponent);
+
 }
 
 #endif
