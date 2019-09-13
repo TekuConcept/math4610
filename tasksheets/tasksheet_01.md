@@ -17,7 +17,7 @@ Can either be compiled using `cmake . && make` or by using `g++ test/target_lang
 ## Task 5:
 https://github.com/TekuConcept/math4610/blob/master/hw_toc.md
 
-## Task 6: TODO
+## Task 6:
 
 https://github.com/TekuConcept/math4610/blob/master/modules/test/central_difference.cpp
 
@@ -56,7 +56,7 @@ Exactly:       592
 * [single-machine-epsilon](https://github.com/TekuConcept/math4610/blob/master/modules/doc/smaceps.md)
 * [double-machine-epsilon](https://github.com/TekuConcept/math4610/blob/master/modules/doc/dmaceps.md)
 
-## Task 9: TODO
+## Task 9:
 
 https://github.com/TekuConcept/math4610/blob/master/modules/test/central_difference.cpp
 
