@@ -13,3 +13,6 @@ ADD_EXECUTABLE(demo test/main.cpp)
 TARGET_LINK_LIBRARIES(demo computations)
 
 ADD_EXECUTABLE(target_language test/target_language.cpp)
+
+ADD_EXECUTABLE(central_difference test/central_difference.cpp)
+TARGET_LINK_LIBRARIES(central_difference computations)
