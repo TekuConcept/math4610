@@ -9,7 +9,7 @@ INCLUDE_DIRECTORIES(include)
 FILE(GLOB_RECURSE LIBRARY_FILES "source/*.cpp")
 ADD_LIBRARY(computations ${LIBRARY_FILES})
 
-ADD_EXECUTABLE(demo test/main.cpp)
+ADD_EXECUTABLE(demo test/demo.cpp)
 TARGET_LINK_LIBRARIES(demo computations)
 
 ADD_EXECUTABLE(target_language test/target_language.cpp)
