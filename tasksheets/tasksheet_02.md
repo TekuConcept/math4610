@@ -18,13 +18,17 @@ Let `f(x) = xcosh(x) + x^3` and `g(x) = x - f(x)`, `x_0 = initial value`.
 - Iteration 1: `x_{i+1} = (pi/x_{i}^2 - cosh(x_{i}) / x_{i})`
 - Iteration 2: `x_{i+1} = (pi - x_{i}^3) / cosh(x_{i})`
 
-## Task 3: TODO
+Therom: g'(a,b), 0 < k < 1; |g'(x)| <= k; g(x) will converge
 
-Write code that implements fixed point iteration for the equation defined in the previous two tasks. Try out the method on the fixed point iteration equations in Task 1 and Task 2. Make sure that the code you write is in the form of a method or subroutine that can be added to your shared library. You should also write a main program to test the code.
+## Task 3:
 
-## Task 4: TODO
+* [fixed-point-iteration](https://github.com/TekuConcept/math4610/blob/master/modules/doc/fpi.md)
+* [root-finding](https://github.com/TekuConcept/math4610/blob/master/modules/test/root_finding.cpp)
 
-Write a code that computes the roots of a function of one variable using the Bisection method. The algorithm should be written into a subroutine or method that can be called from a main program. Include the routine in the shared library that you are creating for the course.
+## Task 4:
+
+* [bisection](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect.md)
+* [root-finding](https://github.com/TekuConcept/math4610/blob/master/modules/test/root_finding.cpp)
 
 ## Task 5:
 
@@ -40,18 +44,24 @@ Note: this is a repeat of Tasksheet 1 : Task 8
 * [absolute-error](https://github.com/TekuConcept/math4610/blob/master/modules/doc/errabs.md)
 * [relative-error](https://github.com/TekuConcept/math4610/blob/master/modules/doc/errrel.md)
 
-## Task 7: TODO
+## Task 7:
 
-Complete pages in your software manual that document the code written for functional iteration for finding the roots of a function of a single real variable. Use the results in Task 3 as examples for the software page.
+* [fixed-point-iteration](https://github.com/TekuConcept/math4610/blob/master/modules/doc/fpi.md)
 
-## Task 8: TODO
+## Task 8:
 
-Repeat Task 7 for the Bisection method.
+* [bisection](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect.md)
 
-## Task 9: TODO
+## Task 9:
 
-Compare the results from functional iteration and Bisection on the problems in Tasksheet 2, Task 1 and Task2. Which provides a better approximation and on the efficiency of the methods.
+Fixed point iteration failed to produce a root result for the equation. Eight different equation arrangements for `g(x)` were tried, but the outcome was either cyclic, divergant, or unresolvable. Bisection, on the other hand, produced a root for the same equation on the first try.
 
-## Task 10: TODO
+Fixed point requires only a single value, while bisection requires two values. If the function, `g(x)`, is convergent, fixed point will usually converge to the root more quickly than bisection. Bisection, however, will always converge so long as the upper and lower bound guesses surround the root.
 
-Search the internet for sites that discuss functional iteration for root finding. Try to find sites that show the effective use of this method in real problems. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
+Note: the algorithm implementation for fixed point iteration was tested on a different equation, `f(x) = exp(-1) - x`, to confirm the code was working as designed. The algorithm did produce a root for the function `f(x)`.
+
+## Task 10:
+
+https://mat.iitm.ac.in/home/sryedida/public_html/caimna/transcendental/iteration%20methods/fixed-point/iteration.html
+
+With respect to fixed point iteration: Some functions will not converge for any initial approximation. Some functions will converge very quickly (faster than the bisection method). Some functions will converge very slowly (potentially slower than the bisection method). A developer can optimize their program for speed by analyzing which methods converge more quickly and opting for the faster of the two.

@@ -9,10 +9,15 @@ INCLUDE_DIRECTORIES(include)
 FILE(GLOB_RECURSE LIBRARY_FILES "source/*.cpp")
 ADD_LIBRARY(computations ${LIBRARY_FILES})
 
-ADD_EXECUTABLE(demo test/demo.cpp)
-TARGET_LINK_LIBRARIES(demo computations)
-
 ADD_EXECUTABLE(target_language test/target_language.cpp)
 
-ADD_EXECUTABLE(central_difference test/central_difference.cpp)
-TARGET_LINK_LIBRARIES(central_difference computations)
+SET(TESTS
+    demo
+    central_difference
+    root_finding
+)
+
+FOREACH(TARGET ${TESTS})
+    ADD_EXECUTABLE(${TARGET} test/${TARGET}.cpp)
+    TARGET_LINK_LIBRARIES(${TARGET} computations)
+ENDFOREACH()
