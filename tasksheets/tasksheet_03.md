@@ -1,28 +1,31 @@
 # Tasksheet 3
 
-## Task 1: TODO
+## Task 1:
 
-Implement a version of Newton's method for finding the roots of a function of one variable. Document the code in your software manual.
+* [newton-raphson](https://github.com/TekuConcept/math4610/blob/master/modules/doc/newton.md)
 
-## Task 2: TODO
+## Task 2:
 
-Implement a version of the secant method for finding the roots of a function of one variable. Create a page in your software manual to document the code.
+* [secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/secant.md)
 
 ## Task 3: TODO
 
 Compare the 4 methods for root finding (functional iteration, bisection, Newton's method, and the secant method using the problems defined in the first two tasks of Task sheet #2.
 
-## Task 4: TODO
+## Task 4:
 
-Develop and implement a hybrid method for approximate solution of root finding problems in one variable. Use the bisection method to start the algorithm and switch to Newton's method when the iterates are close enough. Create a page in your software manual for this code.
+* [bisect-newton](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_newton.md)
 
-## Task 5: TODO
+## Task 5:
 
-Repeat the development in Task 4, but replace Newton's method with the secant method. Create a page in your software manual for this code.
+* [bisect-secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_secant.md)
 
-## Task 6: TODO
+## Task 6:
 
-Add the routines created thus far to your shared library. There should be 8 to 10 routines so far in the course.
+* [newton-raphson](https://github.com/TekuConcept/math4610/blob/master/modules/doc/newton.md)
+* [secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/secant.md)
+* [bisect-newton](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_newton.md)
+* [bisect-secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_secant.md)
 
 ## Task 7: TODO
 

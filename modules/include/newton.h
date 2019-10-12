@@ -17,7 +17,7 @@ namespace math4610 {
         T                   __x0,
         std::function<T(T)> __f,
         std::function<T(T)> __df,
-        T                   __epsilon)
+        T                   __epsilon = (T)1.0E-5)
     {
         T h, x = __x0;
         size_t limit = 0;
