@@ -37,6 +37,9 @@ namespace math4610 {
         return true;
     }
 
+
+    // diverges if |x_{i+1} - a| > |x_{i} - a|
+
 }
 
 #endif

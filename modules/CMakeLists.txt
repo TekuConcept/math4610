@@ -12,6 +12,7 @@ ADD_LIBRARY(computations ${LIBRARY_FILES})
 ADD_EXECUTABLE(target_language test/target_language.cpp)
 
 SET(TESTS
+    sandbox
     demo
     central_difference
     root_finding
