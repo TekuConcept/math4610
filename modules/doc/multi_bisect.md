@@ -1,52 +1,37 @@
-/**
- * Created by TekuConcept on September 20, 2019
- */
+# Bisection Method
 
-#ifndef MATH4610_BISECT_H
-#define MATH4610_BISECT_H
+**Routine Name:** multi_bisection
 
-#include <cmath>
-#include <utility>
-#include <vector>
-#include <iostream>
-#include <functional>
-#include <algorithm>
+**Author:** TekuConcept
 
-namespace math4610 {
+**Language:** C/C++
 
-    template <typename T>
-    T
-    bisection(
-        std::function<T(T)> __f,
-        T                   __upper_bound,
-        T                   __lower_bound,
-        T                   __target  = (T)0,
-        T                   __epsilon = (T)1.0E-5)
-    {
-        auto g        = [&](T x) -> T { return __f(x) - __target; };
-        T upper_bound = __upper_bound;
-        T lower_bound = __lower_bound;
-        T root, error = (T)0.0;
-        size_t i = 0;
-        do {
-            root        = (lower_bound + upper_bound) / 2;
-            auto g_root = g(root);
-            error       = std::abs(g_root);
-            auto check  = g(lower_bound) * g_root;
-            // std::cout << i << "|"
-            //     << " xu: " << upper_bound
-            //     << " xl: " << lower_bound
-            //     << " xr: " << root
-            //     << "\n";
-            if (check < 0)      upper_bound = root;
-            else if (check > 0) lower_bound = root;
-            else break;
-            // safety machanism incase of infinite loop
-            if (i++ > 1000) break;
-        } while (error >= __epsilon);
-        return root;
-    }
+**Description/Purpose:** This routine will compute the closely-approximated roots of the input function, `f(x)` using the closed-loop bisection method. Between a provided interval and optional number of slices, the algorithm will try to locate as many roots as possible. If the slice interval is too large, some roots may be neglected, but if the slice interval is too small, the algorithm may require more time to search.
 
+**Input:** The function, f(x), the search interval, an optional number of slices to search in, an optional non-zero target value for which to find the root, and an optional minimum error epsilon.
+
+**Output:** The computed roots. An empty set will be returned if no roots were found or an error occured.
+
+**Usage/Example:**
+
+Consider the function `f(x) = sin(PI * x^2 + 3.7)`, code can be written to find its root:
+
+    auto begin  = 1.1;
+    auto end    = 68.3;
+    auto slices = 4760; // SUM from i=1 to 69 of (2*i-1)
+    auto roots = math4610::multi_bisection<double>(
+        [](double x) -> double {
+            return std::sin(M_PI * std::pow(x, 2) + 3.7);
+        },
+        begin,
+        end,
+        slices
+    );
+    // assuming std::ostream operator is overloaded for std::vector
+    VERBOSE("Roots: " << roots);
+
+
+**Implementation/Code:** ( [bisect.h](https://github.com/TekuConcept/math4610/blob/master/modules/include/bisect.h) )
 
     template <typename T>
     std::vector<T>
@@ -98,6 +83,4 @@ namespace math4610 {
         return roots;
     }
 
-}
-
-#endif
+**Last Modified:** October/2019

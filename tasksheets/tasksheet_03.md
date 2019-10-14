@@ -27,9 +27,11 @@ Compare the 4 methods for root finding (functional iteration, bisection, Newton'
 * [bisect-newton](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_newton.md)
 * [bisect-secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/bisect_secant.md)
 
-## Task 7: TODO
+## Task 7:
 
 In some cases it is necessary to find a number of roots for a function of one variable. Suppose that we know there are several roots in a given interval. Develop code that will break the interval into subintervals and apply the Bisection method to each subinterval. Apply this to the following function `f(x) = sin(pi*x^2 + 3.7)`; Use the interval [1.1, 68.3] . It might pay to identify where the zeros are in this problem.
+* [multi_bisect](https://github.com/TekuConcept/math4610/blob/master/modules/doc/multi_bisect.md)
+* [root_finding_2](https://github.com/TekuConcept/math4610/blob/master/modules/test/root_finding_2.cpp)
 
 ## Task 8: TODO
 

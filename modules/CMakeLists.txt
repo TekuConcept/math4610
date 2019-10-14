@@ -16,6 +16,7 @@ SET(TESTS
     demo
     central_difference
     root_finding
+    root_finding_2
 )
 
 FOREACH(TARGET ${TESTS})
