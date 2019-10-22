@@ -1,41 +1,42 @@
-/**
- * Created by TekuConcept on October 12, 2019
- */
+# Multi-Secant Method
 
-#ifndef MATH4610_NEWTON_H
-#define MATH4610_NEWTON_H
+**Routine Name:** multi_secant
 
-#include <cmath>
-#include <algorithm>
-#include <functional>
+**Author:** TekuConcept
 
-namespace math4610 {
+**Language:** C/C++
 
-    
-    template <typename T>
-    T
-    newton_raphson(
-        T                   __x0,
-        std::function<T(T)> __f,
-        std::function<T(T)> __df,
-        T                   __epsilon = (T)1.0E-5)
-    {
-        T h, x = __x0;
-        size_t limit = 0;
-        do {
-            h = __f(x) / __df(x);
-            x -= h;
-            limit++;
-        } while (std::abs(h) >= __epsilon && limit < 1000);
-        return x;
-    }
+**Description/Purpose:** This routine will compute the closely-approximated roots of the input function, `f(x)`, using the open-loop secant method. Between a provided interval and optional number of slices, the algorithm will try to locate as many roots as possible. If the slice interval is too large, some roots may be neglected, but if the slice interval is too small, the algorithm may require more time to search.
 
+**Input:** The function, f(x), the search interval, an optional number of slices to search in, and an optional minimum error epsilon.
+
+**Output:** The computed roots. An empty set will be returned if no roots were found or an error occured.
+
+**Usage/Example:**
+
+Consider the function `f(x) = sin(PI * x^2 + 3.7)`, code can be written to find its root:
+
+    auto begin  = 1.1;
+    auto end    = 68.3;
+    auto slices = 4760; // SUM from i=1 to 69 of (2*i-1)
+    auto roots = math4610::multi_secant<double>(
+        [](double x) -> double {
+            return std::sin(M_PI * std::pow(x, 2) + 3.7);
+        },
+        begin,
+        end,
+        slices
+    );
+    // assuming std::ostream operator is overloaded for std::vector
+    VERBOSE("Roots: " << roots);
+
+
+**Implementation/Code:** ( [secant.h](https://github.com/TekuConcept/math4610/blob/master/modules/include/secant.h) )
 
     template <typename T>
     std::vector<T>
-    multi_newton_raphson(
+    multi_secant(
         std::function<T(T)> __f,
-        std::function<T(T)> __df,
         T                   __begin,
         T                   __end,
         unsigned int        __slices  = 100,
@@ -71,29 +72,13 @@ namespace math4610 {
 
         // find roots
         for (auto& interval : intervals)
-            roots.push_back(newton_raphson<T>(
+            roots.push_back(secant<T>(
+                interval.first,
                 (interval.first + interval.second) / 2,
                 __f,
-                __df,
                 __epsilon));
 
         return roots;
     }
 
-
-    template <typename T>
-    bool
-    newton_raphson_converges(
-        T                   __x,
-        std::function<T(T)> __f,
-        std::function<T(T)> __df,
-        std::function<T(T)> __ddf)
-    {
-        auto n1 = __f(__x) * __ddf(__x);
-        auto n2 = __df(__x);
-        return (std::abs(n1) / std::abs(n2 * n2)) < 1;
-    }
-
-}
-
-#endif
+**Last Modified:** October/2019

@@ -1,4 +1,4 @@
-# Bisection Method
+# Multi-Bisection Method
 
 **Routine Name:** multi_bisection
 
@@ -6,7 +6,7 @@
 
 **Language:** C/C++
 
-**Description/Purpose:** This routine will compute the closely-approximated roots of the input function, `f(x)` using the closed-loop bisection method. Between a provided interval and optional number of slices, the algorithm will try to locate as many roots as possible. If the slice interval is too large, some roots may be neglected, but if the slice interval is too small, the algorithm may require more time to search.
+**Description/Purpose:** This routine will compute the closely-approximated roots of the input function, `f(x)`, using the closed-loop bisection method. Between a provided interval and optional number of slices, the algorithm will try to locate as many roots as possible. If the slice interval is too large, some roots may be neglected, but if the slice interval is too small, the algorithm may require more time to search.
 
 **Input:** The function, f(x), the search interval, an optional number of slices to search in, an optional non-zero target value for which to find the root, and an optional minimum error epsilon.
 
