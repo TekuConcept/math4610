@@ -8,9 +8,34 @@
 
 * [secant](https://github.com/TekuConcept/math4610/blob/master/modules/doc/secant.md)
 
-## Task 3: TODO
+## Task 3:
 
-Compare the 4 methods for root finding (functional iteration, bisection, Newton's method, and the secant method using the problems defined in the first two tasks of Task sheet #2.
+Newton-Raphson:
+```
+0: 0.8
+1: 1.19306
+2: 1.1034
+3: 1.09637
+4: 1.09633
+5: 1.09633
+Root: 1.09633
+```
+
+Secant:
+```
+0: 0.8
+1: 1
+2: 1.12454
+3: 1.09403
+4: 1.09628
+5: 1.09633
+Root: 1.09633
+```
+
+The newton-raphson and secant methods applied to the function `f(x) = xcosh(x) + x^3 + pi` found the root in significantly less iterations than the bisection and fixed-point iteration methods. The newton-raphson and secant methods each took slightly different approaches to finding the root but ended up taking exactly the same number of iterations for this particular input function and returned about the same result.
+
+* [root_finding.cpp](https://github.com/TekuConcept/math4610/blob/master/modules/test/root_finding.cpp)
+
 
 ## Task 4:
 
@@ -42,6 +67,8 @@ Compare the 4 methods for root finding (functional iteration, bisection, Newton'
 * [multi_netwon](https://github.com/TekuConcept/math4610/blob/master/modules/doc/multi_newton.md)
 * [root_finding_2](https://github.com/TekuConcept/math4610/blob/master/modules/test/root_finding_2.cpp)
 
-## Task 10: TODO
+## Task 10:
 
-Search the internet for sites that identify real problems where some root finding problem is used to compute approximate solutions. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
+* https://www.ugrad.math.ubc.ca/coursedoc/math100/notes/approx/newton.html
+
+Polynomials with degrees greater than or equal to three tend to have non-trivial roots associated with them. Root-finding numerical methods help to find close approximations to roots of such polynomials. In some cases when hardware does not support the division operation, iterative root-finding can be used to emulate it.
