@@ -4,9 +4,8 @@
 
 Open-loop root finding algorithms may sometimes diverge. The hybrid methods first uses the bisection method, which is closed-loop and converges. As such, the hybrid methods can hone in on the target, then switch to an open-loop method to expidite the search.
 
-## Task 2: TODO
+## Task 2:
 
-Develop codes to compute the length of a vector of arbitrary length using the 1-norm, 2-norm, and infinity norm. Add the object modules to your shared library and create three pages to put in your software manual.
 * [1_norm](https://github.com/TekuConcept/math4610/blob/master/modules/doc/1_norm.md)
 * [2_norm](https://github.com/TekuConcept/math4610/blob/master/modules/doc/2_norm.md)
 * [inf_norm](https://github.com/TekuConcept/math4610/blob/master/modules/doc/inf_norm.md)
