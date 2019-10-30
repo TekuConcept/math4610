@@ -10,34 +10,48 @@ Open-loop root finding algorithms may sometimes diverge. The hybrid methods firs
 * [2_norm](https://github.com/TekuConcept/math4610/blob/master/modules/doc/2_norm.md)
 * [inf_norm](https://github.com/TekuConcept/math4610/blob/master/modules/doc/inf_norm.md)
 
-## Task 3: TODO
+## Task 3:
 
-Develop codes that compute the absolute and relative error in using one vector x as an approximation of another vector, x∗. Create these routines for the 1-norm, 2-norm, and infinity norm. Make sure you add these routines to your shared library and create software manual pages for all 6 codes.
+* [1_norm_abserr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/1_norm_abserr.md)
+* [1_norm_relerr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/1_norm_relerr.md)
+* [2_norm_abserr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/2_norm_abserr.md)
+* [2_norm_relerr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/2_norm_relerr.md)
+* [inf_norm_abserr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/inf_norm_abserr.md)
+* [inf_norm_relerr](https://github.com/TekuConcept/math4610/blob/master/modules/doc/inf_norm_relerr.md)
 
-## Task 4: TODO
+## Task 4:
 
-Write codes that return (1) the sum of two vectore, (2) difference of two vectors, and (3) a scalar multiple of a vector.
+* [add](https://github.com/TekuConcept/math4610/blob/master/modules/doc/add_vector.md)
+* [subtract](https://github.com/TekuConcept/math4610/blob/master/modules/doc/sub_vector.md)
+* [scale](https://github.com/TekuConcept/math4610/blob/master/modules/doc/scale_vector.md)
 
 ## Task 5: TODO
 
-Write a code that implements a "SAXPY" operation involing input of a couple of vectors and a scalar. Do an internet search to find out what a SAXPY operation. Add the routine to your shared library and the software manual.
+Write a code that implements a "SAXPY" operation involing input of a couple of vectors and a scalar. Do an internet search to find out what a SAXPY operation is. Add the routine to your shared library and the software manual.
 
 ## Task 6: TODO
 
 Write codes to implement (1) the dot product of two vectors and (2) the cross product of two vectors. As usual, add these to your shared library and software manual.
+* [dot](https://github.com/TekuConcept/math4610/blob/master/modules/doc/dot_vector.md)
 
 ## Task 7: TODO
 
 Create a routine that will return the output from multiplying a matrix into a vector from the left. Do this for a general rectangular matrix, A. That is, `y = Ax`
 
-## Task 8: TODO
+## Task 8:
 
-Download and use the "Hello World" handout that uses OpenMP to do a single print of a string for each processor your computer has. Report how many processors your laptop or desktop has.
+    hello parallel world from thread #1
+    hello parallel world from thread #0
+    hello parallel world from thread #2
+    hello parallel world from thread #3
+
+( Two cores, Four hyperthreads )
 
 ## Task 9: TODO
 
 Use OpenMP to try to speed up the matrix-vector multiplication using more than one processor.
 
-## Task 10: TODO
+## Task 10:
 
-Search the internet for sites that document optimization flags on compilers that you might use. For example, look for pages that talk about optimization flags on gcc or gfortran. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
+https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+By default, GCC uses optimization level 0. Every line of code translates to one or more instructions. Level 1 optimization adds speed and binary size improvements without increasing compile time. Level 2, which is usually a nominal level of optimisation for most programs, takes a little longer to compile but provides runtime benefits and reduced disk usage. Level 3, size, and fast optimization levels head in the computer science realm, that is, the developer needs to determine which they consider more important when optimizing: speed or size.

@@ -19,7 +19,17 @@ SET(TESTS
     root_finding_2
 )
 
+SET(GOMP_TESTS
+    openmp_demo
+)
+
 FOREACH(TARGET ${TESTS})
     ADD_EXECUTABLE(${TARGET} test/${TARGET}.cpp)
     TARGET_LINK_LIBRARIES(${TARGET} computations)
+ENDFOREACH()
+
+FOREACH(TARGET ${GOMP_TESTS})
+    ADD_EXECUTABLE(${TARGET} test/${TARGET}.cpp)
+    TARGET_LINK_LIBRARIES(${TARGET} computations gomp)
+    TARGET_COMPILE_OPTIONS(${TARGET} PUBLIC -fopenmp)
 ENDFOREACH()
