@@ -14,7 +14,7 @@
 
 **Usage/Example:**
 
-Code can be written to find the vector's norm:
+Code can be written to find the difference of two vectors:
 
     auto difference = math4610::subtract<double>(
         { 1, 2, 3, 4, 5 },
@@ -33,10 +33,9 @@ Code can be written to find the vector's norm:
         if (__lhs.size() != __rhs.size())
             throw std::runtime_error(
                 "cannot subtract vectors of different sizes");
-        size_t size = __lhs.size();
         std::vector<T> result;
-        result.resize(size);
-        for (size_t i = 0; i < size; i++)
+        result.resize(__lhs.size());
+        for (size_t i = 0; i < result.size(); i++)
             result[i] = __lhs[i] - __rhs[i];
         return result;
     }

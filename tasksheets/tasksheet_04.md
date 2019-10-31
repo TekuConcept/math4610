@@ -25,18 +25,18 @@ Open-loop root finding algorithms may sometimes diverge. The hybrid methods firs
 * [subtract](https://github.com/TekuConcept/math4610/blob/master/modules/doc/sub_vector.md)
 * [scale](https://github.com/TekuConcept/math4610/blob/master/modules/doc/scale_vector.md)
 
-## Task 5: TODO
+## Task 5:
 
-Write a code that implements a "SAXPY" operation involing input of a couple of vectors and a scalar. Do an internet search to find out what a SAXPY operation is. Add the routine to your shared library and the software manual.
+* [saxpy](https://github.com/TekuConcept/math4610/blob/master/modules/doc/saxpy_vector.md)
 
-## Task 6: TODO
+## Task 6:
 
-Write codes to implement (1) the dot product of two vectors and (2) the cross product of two vectors. As usual, add these to your shared library and software manual.
 * [dot](https://github.com/TekuConcept/math4610/blob/master/modules/doc/dot_vector.md)
+* [cross](https://github.com/TekuConcept/math4610/blob/master/modules/doc/cross_vector.md)
 
-## Task 7: TODO
+## Task 7:
 
-Create a routine that will return the output from multiplying a matrix into a vector from the left. Do this for a general rectangular matrix, A. That is, `y = Ax`
+* [multiply](https://github.com/TekuConcept/math4610/blob/master/modules/doc/mul_vector.md)
 
 ## Task 8:
 
@@ -47,9 +47,9 @@ Create a routine that will return the output from multiplying a matrix into a ve
 
 ( Two cores, Four hyperthreads )
 
-## Task 9: TODO
+## Task 9:
 
-Use OpenMP to try to speed up the matrix-vector multiplication using more than one processor.
+* [multiply](https://github.com/TekuConcept/math4610/blob/master/modules/doc/mul_vector.md)
 
 ## Task 10:
 

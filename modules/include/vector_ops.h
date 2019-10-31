@@ -2,10 +2,17 @@
  * Created by TekuConcept on October 30, 2019
  */
 
+#ifndef MATH4610_VECTOR_OPS_H
+#define MATH4610_VECTOR_OPS_H
+
 #include <cmath>
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+
+#include <omp.h>
+
+#include "matrix.h"
 
 namespace math4610 {
 
@@ -47,10 +54,9 @@ namespace math4610 {
         if (__lhs.size() != __rhs.size())
             throw std::runtime_error(
                 "cannot add vectors of different sizes");
-        size_t size = __lhs.size();
         std::vector<T> result;
-        result.resize(size);
-        for (size_t i = 0; i < size; i++)
+        result.resize(__lhs.size());
+        for (size_t i = 0; i < result.size(); i++)
             result[i] = __lhs[i] + __rhs[i];
         return result;
     }
@@ -65,10 +71,9 @@ namespace math4610 {
         if (__lhs.size() != __rhs.size())
             throw std::runtime_error(
                 "cannot subtract vectors of different sizes");
-        size_t size = __lhs.size();
         std::vector<T> result;
-        result.resize(size);
-        for (size_t i = 0; i < size; i++)
+        result.resize(__lhs.size());
+        for (size_t i = 0; i < result.size(); i++)
             result[i] = __lhs[i] - __rhs[i];
         return result;
     }
@@ -80,10 +85,9 @@ namespace math4610 {
         const std::vector<T>& __v,
         T                     __s)
     {
-        size_t size = __v.size();
         std::vector<T> result;
-        result.resize(size);
-        for (size_t i = 0; i < size; i++)
+        result.resize(__v.size());
+        for (size_t i = 0; i < result.size(); i++)
             result[i] = __s * __v[i];
         return result;
     }
@@ -102,6 +106,63 @@ namespace math4610 {
         size_t size = __lhs.size();
         for (size_t i = 0; i < size; i++)
             result += __lhs[i] * __rhs[i];
+        return result;
+    }
+
+
+    template <typename T>
+    std::vector<T>
+    cross(
+        const std::vector<T>& __lhs,
+        const std::vector<T>& __rhs)
+    {
+        if (__lhs.size() != __rhs.size() && __lhs.size() != 3)
+            throw std::runtime_error("cannot cross vectors");
+        return {
+            __lhs[1] * __rhs[2] - __lhs[2] * __rhs[1],
+            __lhs[2] * __rhs[0] - __lhs[0] * __rhs[2],
+            __lhs[0] * __rhs[1] - __lhs[1] * __rhs[0]
+        };
+    }
+
+
+    template <typename T>
+    std::vector<T>
+    saxpy(
+        T                    __a,
+        const std::vector<T> __x,
+        const std::vector<T> __y)
+    {
+        if (__x.size() != __y.size())
+            throw std::runtime_error(
+                "cannot run against vectors of different sizes");
+        std::vector<T> result;
+        result.resize(__x.size());
+        for (size_t i = 0; i < result.size(); i++)
+            result[i] = __a * __x[i] + __y[i];
+        return result;
+    }
+
+
+    template <typename T>
+    std::vector<T>
+    multiply(
+        const matrix<T>&      __A,
+        const std::vector<T>& __v)
+    {
+        if (__A.cols() != __v.size())
+            throw std::runtime_error(
+                "vector and matrix sizes do not match");
+        std::vector<T> result;
+        result.resize(__A.rows());
+        size_t y;
+        #pragma omp parallel for
+        for (y = 0; y < __A.rows(); y++) {
+            auto* row = __A.at(y, 0);
+            result[y] = 0;
+            for (size_t x = 0; x < __A.cols(); x++)
+                result[y] += row[x] * __v[x];
+        }
         return result;
     }
 
@@ -134,3 +195,5 @@ namespace math4610 {
     }
 
 }
+
+#endif

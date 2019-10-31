@@ -14,7 +14,7 @@
 
 **Usage/Example:**
 
-Code can be written to find the vector's norm:
+Code can be written to scale a vector:
 
     auto scale = 2.0;
     auto vector = math4610::subtract<double>(
@@ -31,10 +31,9 @@ Code can be written to find the vector's norm:
         const std::vector<T>& __v,
         T                     __s)
     {
-        size_t size = __v.size();
         std::vector<T> result;
-        result.resize(size);
-        for (size_t i = 0; i < size; i++)
+        result.resize(__v.size()));
+        for (size_t i = 0; i < result.size(); i++)
             result[i] = __s * __v[i];
         return result;
     }

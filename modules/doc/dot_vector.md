@@ -14,7 +14,7 @@
 
 **Usage/Example:**
 
-Code can be written to find the vector's norm:
+Code can be written to find the vector's dot product:
 
     auto dot = math4610::dot<double>(
         { 1, 2, 3, 4, 5 },
