@@ -17,6 +17,7 @@ SET(TESTS
     central_difference
     root_finding
     root_finding_2
+    matrix_test
 )
 
 SET(GOMP_TESTS
