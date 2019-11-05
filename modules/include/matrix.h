@@ -70,27 +70,6 @@ namespace math4610 {
             size_t cols)
         { m_data.resize(rows * cols); }
 
-        /*
-        stack<Node *> s; 
-        Node *curr = root; 
-        while (curr != NULL || s.empty() == false) { 
-            while (curr !=  NULL) {
-                s.push(curr);
-                curr = curr->left;
-            }
-            curr = s.top();
-            s.pop();
-            cout << curr->data << " ";
-            curr = curr->right;
-        }
-        */
-        struct meta {
-            T det;
-            int sign;
-            size_t width;
-            size_t index;
-            std::vector<size_t> indices;
-        };
         T determinant()
         {
             if (m_rows != m_cols)
@@ -98,9 +77,15 @@ namespace math4610 {
                     "non-square matrices not supported");
             if (m_rows == 0) return 0;
             if (m_rows == 1) return m_data.front();
+            struct meta {
+                T det;
+                int sign;
+                size_t width;
+                size_t index;
+                std::vector<size_t> indices;
+            };
             std::vector<meta> layers;
             T det;
-
             {
                 meta root;
                 root.det   = 0;
@@ -112,7 +97,6 @@ namespace math4610 {
                     root.indices.push_back(i);
                 layers.push_back(root);
             }
-
             do {
                 while (layers.back().width != 2) {
                     const auto& last = layers.back();
@@ -127,7 +111,6 @@ namespace math4610 {
                             next.indices.push_back(last.indices[i]);
                     layers.push_back(next);
                 }
-
                 auto& current = layers.back();
                 if (current.width == 2) {
                     size_t r1 = (m_rows - current.width + 0) * m_cols;
@@ -140,7 +123,6 @@ namespace math4610 {
                 }
                 else det = current.det;
                 layers.pop_back();
-
                 edge: // mild loop hack
                 if (!layers.empty()) {
                     auto& parent = layers.back();
@@ -156,7 +138,6 @@ namespace math4610 {
                     }
                 }
             } while (!layers.empty());
-
             return det;
         }
 
