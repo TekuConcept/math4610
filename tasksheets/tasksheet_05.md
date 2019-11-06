@@ -15,8 +15,8 @@ Write a method/routine that will compute the solution of a square linear systems
 ## Task 5:
 * [guass](https://github.com/TekuConcept/math4610/blob/master/modules/doc/guass_matrix.md)
 
-## Task 6: TODO
-Write a routine that will compute the LU-factorization of a square matrix. Put an entry in your software manual to document the code.
+## Task 6:
+* [lu](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lu_matrix.md)
 
 ## Task 7: TODO
 Create a routine that will solve a linear system of equations using the LU-factorization. Make sure you include a page in your software manual.
