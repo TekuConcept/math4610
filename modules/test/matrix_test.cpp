@@ -12,16 +12,18 @@ int main() {
     V("- BEGIN -");
 
     math4610::matrix<double> mat(
-        4, 4,
+        3, 4,
         {
-            1, 2, 3, 4,
-            5, 1, 7, 8,
-            9, 0, 1, 2,
-            3, 4, 5, 1
+            5, -6, -7,   7, 
+            3, -2,  5, -17, 
+            2,  4, -3,  29
         }
     );
 
-    V(mat.determinant());
+    auto a = mat.rref();
+    V("");
+    a.print();
+    V("");
 
     V("- END OF LINE -");
     return 0;

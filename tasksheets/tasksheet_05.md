@@ -3,11 +3,11 @@
 ## Task 1: TODO
 Write a method/routine that will compute the solution of a square linear systems of equations where the coefficient matrix is diagonal. Put an entry in your software manual that documents the method for diagonal systems.
 
-## Task 2: TODO
-Write a method/routine that will compute the solution of an upper triangular system (the coefficient matrix is upper triangular) and put an entry in your software manual to document the routine.
+## Task 2:
+* [upper](https://github.com/TekuConcept/math4610/blob/master/modules/doc/upper_matrix.md)
 
-## Task 3: TODO
-Repeat the previous task, but in the case of a lower triangular coefficient matrix.
+## Task 3:
+* [lower](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lower_matrix.md)
 
 ## Task 4: TODO
 Write a routine that will row reduce a square matrix into row echelon form. Include a page in your software manual.

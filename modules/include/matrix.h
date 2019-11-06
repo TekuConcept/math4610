@@ -6,6 +6,8 @@
 #define MATH4610_MATRIX_H
 
 #include <cstring>
+#include <iostream>
+#include <iomanip>
 #include <vector>
 #include <stdexcept>
 
@@ -70,8 +72,60 @@ namespace math4610 {
             size_t cols)
         { m_data.resize(rows * cols); }
 
-        T determinant()
+        void print() const
         {
+            for (size_t row = 0; row < m_rows; row++) {
+                for (size_t col = 0; col < m_cols; col++) {
+                    std::cout << std::setprecision(4) << std::setw(7);
+                    std::cout << m_data[row * m_cols + col] << " ";
+                }
+                std::cout << std::endl;
+            }
+        }
+
+        void decompose(
+            matrix* __upper,
+            matrix* __lower) const
+        { // doolittle decomposition algorithm
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            size_t size = m_rows;
+            matrix upper(size, size);
+            matrix lower(size, size);
+            for (size_t row = 0; row < size; row++) {
+                for (size_t col = 0; col < size; col++) {
+                    if (col < row) lower.m_data[col * size + row] = 0;
+                    else {
+                        lower.m_data[col * size + row] =
+                            m_data[col * size + row];
+                        for (size_t ex = 0; ex < row; ex++)
+                            lower.m_data[col * size + row] -=
+                                lower.m_data[col * size + ex] *
+                                upper.m_data[ex * size + row];
+                    }
+                }
+                for (size_t col = 0; col < size; col++) {
+                    if (col < row)       upper.m_data[row * size + col] = 0;
+                    else if (col == row) upper.m_data[row * size + col] = 1;
+                    else {
+                        upper[row * size + col] =
+                            m_data[row * size + col] /
+                            lower.m_data[row * size + row];
+                        for (size_t ex = 0; ex < row; ex++)
+                            upper.m_data[row * size + col] -=
+                                (lower.m_data[row * size + ex] *
+                                upper.m_data[ex * size + col]) /
+                                lower.m_data[row * size + row];
+                    }
+                }
+            }
+            if (__upper) *__upper = std::move(upper);
+            if (__lower) *__lower = std::move(lower);
+        }
+
+        T determinant() const
+        { // runs in O(n) time where 'n' represents every coefficient
             if (m_rows != m_cols)
                 throw std::runtime_error(
                     "non-square matrices not supported");
@@ -139,6 +193,29 @@ namespace math4610 {
                 }
             } while (!layers.empty());
             return det;
+        }
+
+        matrix rref() const
+        {
+            if ((m_rows + 1) != m_cols)
+                throw std::runtime_error("matrix must be N x (N+1)");
+            matrix a(m_rows, m_cols, m_data); // copy
+            size_t pivot = 0;
+            while (pivot < m_rows) {
+                for (size_t row = 0; row < m_rows; row++) {
+                    T denominator = a.m_data[pivot * m_cols + pivot];
+                    T numerator   =
+                        a.m_data[row * m_cols + pivot] / denominator;
+                    for (size_t col = 0; col < m_cols; col++) {
+                        if (row == pivot)
+                             a.m_data[row   * m_cols + col] /= denominator;
+                        else a.m_data[row   * m_cols + col] -=
+                             a.m_data[pivot * m_cols + col] * numerator;
+                    }
+                }
+                pivot++;
+            }
+            return a;
         }
 
     private:
