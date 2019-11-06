@@ -9,11 +9,11 @@ Write a method/routine that will compute the solution of a square linear systems
 ## Task 3:
 * [lower](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lower_matrix.md)
 
-## Task 4: TODO
-Write a routine that will row reduce a square matrix into row echelon form. Include a page in your software manual.
+## Task 4:
+* [rref](https://github.com/TekuConcept/math4610/blob/master/modules/doc/rref_matrix.md)
 
-## Task 5: TODO
-Write a code that will solve a square linaer system of equations using Gaussian elimination (elementary row operations). Use your backsubstitution method to compute the solution. Note that the first part will result in an upper triangular system. Document the code in your software manual.
+## Task 5:
+* [guass](https://github.com/TekuConcept/math4610/blob/master/modules/doc/guass_matrix.md)
 
 ## Task 6: TODO
 Write a routine that will compute the LU-factorization of a square matrix. Put an entry in your software manual to document the code.
@@ -27,5 +27,5 @@ Using OpenMP, see if you can speed up the LU-factorization solution method from 
 ## Task 9: TODO
 Embed scaled partial pivoting in a new version of the LU-factorization linear solution method. using more than one processor. Do this without interchanging rows - use an index vector to improve efficiency.
 
-## Task 10: TODO
-Search the internet for sites that document pivoting strategies in numerical solution of linear equations. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
+## Task 10:
+http://mathfaculty.fullerton.edu/mathews/n2003/PivotingMod.html A variety of pivoting strategies exist, namely: no-pivoting, trivial pivoting, partial pivoting, scaled partial pivoting, and total pivoting. No-pivoting is pretty self explanitory. Trivial pivoting swaps rows between pivot and the next row with a non-zero element. Partial pivoting swaps rows to set the largest element as the pivot value. Trivial and Partial pivoting will not swap if pivot value is non-zero. Total pivoting involves swaping rows and columns.
