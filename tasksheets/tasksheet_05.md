@@ -18,11 +18,11 @@ Write a method/routine that will compute the solution of a square linear systems
 ## Task 6:
 * [lu](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lu_matrix.md)
 
-## Task 7: TODO
-Create a routine that will solve a linear system of equations using the LU-factorization. Make sure you include a page in your software manual.
+## Task 7:
+* [lu_solver](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lu_solver_matrix.md)
 
-## Task 8: TODO
-Using OpenMP, see if you can speed up the LU-factorization solution method from the previous task.
+## Task 8:
+* [lu](https://github.com/TekuConcept/math4610/blob/master/modules/doc/lu_matrix.md)
 
 ## Task 9: TODO
 Embed scaled partial pivoting in a new version of the LU-factorization linear solution method. using more than one processor. Do this without interchanging rows - use an index vector to improve efficiency.

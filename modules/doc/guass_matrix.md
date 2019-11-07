@@ -46,87 +46,96 @@ Code can be written as follows:
         return x;
     }
 
-    bool _S_gauss(
+    static bool _S_gauss(
         matrix*         __a,
         std::vector<T>* __b,
         std::vector<T>* __x,
         T               __tollerance = (T)0.0001)
     {
-        std::vector<T> s(__a.m_rows);
-        for (size_t i = 0; i < __a.m_rows; i++) {
-            s[i] = std::abs(__a.m_data[i * __a.m_cols + 0]);
+        auto n = __a->m_rows;
+        auto& data = __a->m_data;
+        std::vector<T> s(n);
+        for (size_t i = 0; i < n; i++) {
+            s[i] = std::abs(data[i * n + 0]);
             for (int j = 1; j < n; j++)
-                if (std::abs(__a.m_data[i * __a.m_cols + j]) > s[i])
-                    s[i] = std::abs(__a.m_data[i * __a.m_cols + j]);
+                if (std::abs(data[i * n + j]) > s[i])
+                    s[i] = std::abs(data[i * n + j]);
         }
         bool success = _S_eliminate(__a, &s, __b, __tollerance);
         if (success) _S_substitute(__a, __b, __x);
         return success;
     }
 
-    bool _S_eliminate(
+    static bool _S_eliminate(
         matrix*         __a,
         std::vector<T>* __s,
         std::vector<T>* __b,
         T               __tollerance)
     {
-        auto n = __a.m_rows;
-        auto& data = __a.m_data;
+        auto n     = __a->m_rows;
+        auto& data = __a->m_data;
+        auto& b    = *__b;
+        auto& s    = *__s;
         for (size_t k = 0; k < (n - 1); k++) {
             _S_pivot(__a, __b, __s, k);
-            if (std::abs(data[k * n + k] / __s[k]) < __tollerance)
+            if (std::abs(data[k * n + k] / s[k]) < __tollerance)
                 return false;
             for (size_t i = k + 1; i < n; i++) {
                 T factor = data[i * n + k] / data[k * n + k];
                 for (size_t j = k + 1; j < n; j++)
                     data[i * n + j] -= factor * data[k * n + j];
-                __b[i] -= factor * __b[k];
+                b[i] -= factor * b[k];
             }
         }
-        if (std::abs(data[(n - 1) * n + n - 1)] /
-            __s[n - 1]) < __tollerance)
+        if (std::abs(data[(n - 1) * n + n - 1] /
+            s[n - 1]) < __tollerance)
                 return false;
         else return true;
     }
 
-    void _S_pivot(
+    static void _S_pivot(
         matrix*         __a,
         std::vector<T>* __b,
         std::vector<T>* __s,
         size_t          __k)
     {
-        auto n    = __a.m_rows;
-        auto data = __a.m_data;
-        size_t p  = k;
-        T big     = (T)std::abs(data[k * (n + 1)] / __s[k]);
-        for (size_t ii = k + 1; ii < n; ii++) {
-            T dummy = (T)std::abs(data[ii * n + k] / __s[ii]);
+        auto n     = __a->m_rows;
+        auto& data = __a->m_data;
+        auto& b    = *__b;
+        auto& s    = *__s;
+        size_t p   = __k;
+        T big      = (T)std::abs(data[__k * (n + 1)] / s[__k]);
+        for (size_t ii = __k + 1; ii < n; ii++) {
+            T dummy = (T)std::abs(data[ii * n + __k] / s[ii]);
             if (dummy > big) {
                 big = dummy;
                 p   = ii;
             }
         }
-        if (p != k) {
-            for (size_t jj = k; jj < n; jj++)
-                std::swap(data[p * n + jj], data[k * n + jj]);
-            std::swap(__b[p], __b[k]);
-            std::swap(__s[p], __s[k]);
+        if (p != __k) {
+            for (size_t jj = __k; jj < n; jj++)
+                std::swap(data[p * n + jj], data[__k * n + jj]);
+            std::swap(b[p], b[__k]);
+            std::swap(s[p], s[__k]);
         }
     }
 
-    void _S_substitute(
+    static void _S_substitute(
         matrix*         __a,
         std::vector<T>* __b,
         std::vector<T>* __x)
     {
-        auto n = __a.m_rows;
-        auto& data = __a.m_data;
-        __x[n - 1] = __b[n - 1] / data[n * n - 1];
+        auto n     = __a->m_rows;
+        auto& data = __a->m_data;
+        auto& b    = *__b;
+        auto& x    = *__x;
+        x[n - 1] = b[n - 1] / data[n * n - 1];
         for (size_t i = n - 2; i >= 0; i--) {
             T sum = (T)0;
             for (size_t j = i + 1; j < n; j++)
-                sum += data[i * n + j] * __x[j];
-            __x[i] = (__b[i] - sum) / data[i * (n + 1)];
+                sum += data[i * n + j] * x[j];
+            x[i] = (b[i] - sum) / data[i * (n + 1)];
+            if (i == 0) break; // signed break
         }
     }
 

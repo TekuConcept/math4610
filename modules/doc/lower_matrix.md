@@ -41,7 +41,9 @@ Code can be written as follows:
         matrix upper(size, size);
         matrix lower(size, size);
         for (size_t row = 0; row < size; row++) {
-            for (size_t col = 0; col < size; col++) {
+            size_t col;
+            #pragma omp parallel for
+            for (col = 0; col < size; col++) {
                 if (col < row) lower.m_data[col * size + row] = 0;
                 else {
                     lower.m_data[col * size + row] =
@@ -52,7 +54,8 @@ Code can be written as follows:
                             upper.m_data[ex * size + row];
                 }
             }
-            for (size_t col = 0; col < size; col++) {
+            #pragma omp parallel for
+            for (col = 0; col < size; col++) {
                 if (col < row)       upper.m_data[row * size + col] = 0;
                 else if (col == row) upper.m_data[row * size + col] = 1;
                 else {
