@@ -285,6 +285,23 @@ namespace math4610 {
             return upper.rref(y);
         }
 
+        std::vector<T> diagonal_solver(const std::vector<T>& __b) const
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            else if (m_rows != __b.size())
+                throw std::runtime_error(
+                    "vector-matrix size mismatch");
+            auto n = m_rows;
+            std::vector<T> x(n);
+            for (auto p = 0; p < n; p++) {
+                auto a = m_data[p * n + p];
+                x[p] = __b[p] / a; // TODO: check div-by-0?
+            }
+            return x;
+        }
+
     private:
         size_t m_rows;
         size_t m_cols;

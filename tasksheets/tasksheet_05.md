@@ -1,7 +1,7 @@
 # Tasksheet 5
 
-## Task 1: TODO
-Write a method/routine that will compute the solution of a square linear systems of equations where the coefficient matrix is diagonal. Put an entry in your software manual that documents the method for diagonal systems.
+## Task 1:
+* [diag_solver](https://github.com/TekuConcept/math4610/blob/master/modules/doc/diag_solver_matrix.md)
 
 ## Task 2:
 * [upper](https://github.com/TekuConcept/math4610/blob/master/modules/doc/upper_matrix.md)
