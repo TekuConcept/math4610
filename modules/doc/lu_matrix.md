@@ -1,6 +1,6 @@
 # LU Factorization
 
-**Routine Name:** decompose
+**Routine Name:** lu_decompose
 
 **Author:** TekuConcept
 
@@ -27,11 +27,11 @@ Code can be written as follows:
     );
     math4610::matrix<double> upper;
     math4610::matrix<double> lower;
-    mat.decompose(&upper, &lower);
+    mat.lu_decompose(&upper, &lower);
 
 **Implementation/Code:** ( [matrix.h](https://github.com/TekuConcept/math4610/blob/master/modules/include/matrix.h) )
 
-    void decompose(
+    void lu_decompose(
         matrix* __upper,
         matrix* __lower)
     { // doolittle decomposition algorithm

@@ -7,6 +7,7 @@
 * [Task Sheet 3](https://github.com/TekuConcept/math4610/blob/master/tasksheets/tasksheet_03.md)
 * [Task Sheet 4](https://github.com/TekuConcept/math4610/blob/master/tasksheets/tasksheet_04.md)
 * [Task Sheet 5](https://github.com/TekuConcept/math4610/blob/master/tasksheets/tasksheet_05.md)
+* [Task Sheet 6](https://github.com/TekuConcept/math4610/blob/master/tasksheets/tasksheet_06.md)
 
 ## Links to Projects
 

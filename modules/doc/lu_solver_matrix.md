@@ -33,7 +33,7 @@ See also [lu_matrix](https://github.com/TekuConcept/math4610/blob/master/modules
     std::vector<T> lu_solver(const std::vector<T>& __b) const
     {
         matrix upper, lower;
-        decompose(&upper, &lower);
+        lu_decompose(&upper, &lower);
         auto y = lower.rref(__b);
         return upper.rref(y);
     }
