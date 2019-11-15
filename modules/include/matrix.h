@@ -448,6 +448,35 @@ namespace math4610 {
             return x;
         }
 
+        std::vector<T> seidel_solver(
+            const std::vector<T>& __b,
+            const std::vector<T>& __x = { })
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            if (m_rows != __b.size())
+                throw std::runtime_error(
+                    "matrix-vector size mismatch");
+            auto n = m_rows;
+            std::vector<T> x = __x;
+            if (x.size() != n) x.resize(n);
+            for (size_t c = 0; c < 1E3; c++) {
+                std::vector<T> z(n);
+                for (size_t j = 0; j < n; j++) {
+                    auto d = __b[j];
+                    for (size_t i = 0; i < n; i++) {
+                        if (i == j) continue;
+                        d -= m_data[j * n + i] * x[i];
+                        z[j] = d / m_data[j * n + j];
+                    }
+                }
+                if (_S_allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                x = std::move(z);
+            }
+            return x;
+        }
+
     private:
         size_t m_rows;
         size_t m_cols;

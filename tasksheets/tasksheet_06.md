@@ -21,8 +21,8 @@
 ## Task 7: TODO
 Use each of the matrix generation routines with your Jacobi iteration to test the code. You should generate a matrix with dimension n with n large, create the right hand side of the system by multiplying the matrix on the left into a vector of ones. Then solve the resulting system. Your solutions should be close to 1 if your Jacobi iteration is working.
 
-## Task 8: TODO
-Implement the Gauss-Seidel method for solving linear systems of equations. Include a software manual page for this method.
+## Task 8:
+* [gauss-seidel](https://github.com/TekuConcept/math4610/blob/master/modules/doc/seidel_solver_matrix.md)
 
 ## Task 9: TODO
 Run the Gauss-Seidel iteration on the same matrices as you created in Task 7. Compare the results of the Jacobi iteration runs to the Gauss-Seidel runs. This means keeping track of the number of iterations for each method.
