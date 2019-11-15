@@ -67,6 +67,20 @@ int main() {
     auto L = mat.cholesky_decompose();
     L.print();
 
+    math4610::matrix<double> mat2{
+        4, 4,
+        {
+            10, -1,  2,  0,
+            -1, 11, -1,  3,
+             2, -1, 10, -1,
+             0,  3, -1,  8
+        }
+    };
+    std::vector<double> b{ 6, 25, 11, 15 };
+    auto x = mat2.jacobi_solver(b);
+    V(x);
+
+
     // solvers_1();
 
     // math4610::matrix<double> mat{

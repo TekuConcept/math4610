@@ -3,8 +3,8 @@
 ## Task 1:
 * [cholesky](https://github.com/TekuConcept/math4610/blob/master/modules/doc/cholesky_matrix.md)
 
-## Task 2: TODO
-Write a method that implements Jacobi iteration for solving linear systems of equations. Put an entry in your software manual for this method.
+## Task 2:
+* [jacobi](https://github.com/TekuConcept/math4610/blob/master/modules/doc/jacobi_solver_matrix.md)
 
 ## Task 3: TODO
 Write a routine that will create a square matrix with dimension n. Use a random number generator to determine the entries in the matrix. You can use a uniform distribution as the basis for the values created. Put a page in for this method.

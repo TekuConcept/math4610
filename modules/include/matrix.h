@@ -77,6 +77,44 @@ namespace math4610 {
             size_t cols)
         { m_data.resize(rows * cols); }
 
+        matrix operator+(const matrix& __right)
+        {
+            if ((this->m_rows != __right.m_rows) ||
+                (this->m_cols != __right.m_cols))
+                throw std::runtime_error("matrix dimension mismatch");
+            matrix result(this->m_rows, this->m_cols);
+            for (size_t i = 0; i < m_data.size(); i++)
+                result.m_data[i] = m_data[i] + __right.m_data[i];
+            return result;
+        }
+
+        matrix operator-(const matrix& __right)
+        {
+            if ((this->m_rows != __right.m_rows) ||
+                (this->m_cols != __right.m_cols))
+                throw std::runtime_error("matrix dimension mismatch");
+            matrix result(this->m_rows, this->m_cols);
+            for (size_t i = 0; i < m_data.size(); i++)
+                result.m_data[i] = m_data[i] - __right.m_data[i];
+            return result;
+        }
+
+        std::vector<T> operator*(const std::vector<T>& __right)
+        {
+            if (this->m_cols != __right.size())
+                throw std::runtime_error("vector-matrix size mismatch");
+            std::vector<T> result;
+            result.resize(__right.size());
+            size_t y;
+            for (y = 0; y < m_rows; y++) {
+                auto* row = &m_data[y * m_cols];
+                result[y] = 0;
+                for (size_t x = 0; x < m_cols; x++)
+                    result[y] += row[x] * __right[x];
+            }
+            return result;
+        }
+
         void print() const
         {
             for (size_t row = 0; row < m_rows; row++) {
@@ -98,6 +136,15 @@ namespace math4610 {
                         m_data[offset * n + span])
                         return false;
             return true;
+        }
+
+        matrix diagonal() const
+        {
+            matrix result(m_rows, m_cols);
+            auto n = std::min(m_rows, m_cols);
+            for (size_t i = 0; i < n; i++)
+                result.m_data[i * m_cols + i] = m_data[i * m_cols + i];
+            return result;
         }
 
         void lu_decompose(
@@ -343,10 +390,61 @@ namespace math4610 {
             return x;
         }
 
+        std::vector<T> jacobi_solver(
+            const std::vector<T>& __b,
+            const std::vector<T>& __x = { })
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            if (m_rows != __b.size())
+                throw std::runtime_error(
+                    "matrix-vector size mismatch");
+            auto n = m_rows;
+            std::vector<T> x = __x;
+            if (x.size() != n) x.resize(n);
+            auto D = this->diagonal();
+            auto R = (*this) - D;
+            for (size_t c = 0; c < 1E3; c++) {
+                std::vector<T> z = _S_subtract(__b, R * x);
+                for (size_t i = 0; i < x.size(); i++)
+                    z[i] /= D.m_data[i * n + i];
+                if (_S_allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                x = std::move(z);
+            }
+            return x;
+        }
+
     private:
         size_t m_rows;
         size_t m_cols;
         std::vector<T> m_data;
+
+        bool _S_allclose(
+            std::vector<T> __a,
+            std::vector<T> __b,
+            T              __relative_error = (T)1E-3,
+            T              __absolute_error = (T)1E-3)
+        {
+            if (__a.size() != __b.size()) return false;
+            for (size_t i = 0; i < __a.size(); i++)
+                if (std::abs(__a[i] - __b[i]) >
+                    (__absolute_error + __relative_error * std::abs(__b[i])))
+                    return false;
+            return true;
+        }
+
+        std::vector<T>
+        _S_subtract(
+            const std::vector<T>& __lhs,
+            const std::vector<T>& __rhs)
+        {
+            std::vector<T> result;
+            result.resize(__lhs.size());
+            for (size_t i = 0; i < result.size(); i++)
+                result[i] = __lhs[i] - __rhs[i];
+            return result;
+        }
 
         static bool _S_gauss(
             matrix*         __a,
