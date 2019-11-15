@@ -6,20 +6,20 @@
 ## Task 2:
 * [jacobi](https://github.com/TekuConcept/math4610/blob/master/modules/doc/jacobi_solver_matrix.md)
 
-## Task 3: TODO
-Write a routine that will create a square matrix with dimension n. Use a random number generator to determine the entries in the matrix. You can use a uniform distribution as the basis for the values created. Put a page in for this method.
+## Task 3:
+* [random](https://github.com/TekuConcept/math4610/blob/master/modules/doc/random_matrix.md)
 
-## Task 4: TODO
-Repeat Task 3 with output that is diagonally dominant as defined in class.
+## Task 4:
+* [random](https://github.com/TekuConcept/math4610/blob/master/modules/doc/random_matrix.md)
 
-## Task 5: TODO
-Repeat Task 3 with output that is a symmetric matrix.
+## Task 5:
+* [random](https://github.com/TekuConcept/math4610/blob/master/modules/doc/random_matrix.md)
 
-## Task 6: TODO
-Repeat Task 3 with output that is both symmetric and diagonally dominant.
+## Task 6:
+* [random](https://github.com/TekuConcept/math4610/blob/master/modules/doc/random_matrix.md)
 
 ## Task 7: TODO
-Use each of the matrix generation routines with your Jacobi iteration to test the code. You should generate a matrix with dimension n with n large, create the right hand side of the system by multiplying the matrix on the left into a vector of ones. Then solve the resulting system. You solutions should be close to 1 if your Jacobi iteration is working.
+Use each of the matrix generation routines with your Jacobi iteration to test the code. You should generate a matrix with dimension n with n large, create the right hand side of the system by multiplying the matrix on the left into a vector of ones. Then solve the resulting system. Your solutions should be close to 1 if your Jacobi iteration is working.
 
 ## Task 8: TODO
 Implement the Gauss-Seidel method for solving linear systems of equations. Include a software manual page for this method.
