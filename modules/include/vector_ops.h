@@ -18,6 +18,19 @@ namespace math4610 {
 
     template <typename T>
     T
+    infinite_norm(const std::vector<T>& __v)
+    {
+        // ||x||inf = max(|x_1|,...,|x_n|)
+        if (__v.size() == 0) return (T)0;
+        auto result = __v.front();
+        for (size_t i = 0; i < __v.size(); i++)
+            result = std::max(result, __v[i]);
+        return result;
+    }
+
+
+    template <typename T>
+    T
     norm(
         const std::vector<T>& __v,
         size_t                __p)
@@ -29,19 +42,6 @@ namespace math4610 {
         for (const auto& x : __v)
             sum += std::pow(x, __p);
         return std::pow(sum, 1 / __p);
-    }
-
-
-    template <typename T>
-    T
-    infinite_norm(const std::vector<T>& __v)
-    {
-        // ||x||inf = max(|x_1|,...,|x_n|)
-        if (__v.size() == 0) return (T)0;
-        auto result = __v.front();
-        for (size_t i = 0; i < __v.size(); i++)
-            result = std::max(result, __v[i]);
-        return result;
     }
 
 
@@ -191,7 +191,7 @@ namespace math4610 {
         auto difference = subtract<T>(
             __approximate_vector,
             __exact_vector);
-        return norm<T>(difference, __p) / norm<T>(__exact_value);
+        return norm<T>(difference, __p) / norm<T>(__exact_vector, __p);
     }
 
 }

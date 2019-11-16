@@ -7,6 +7,7 @@
 #define V(x) std::cout << x << std::endl
 
 #include "matrix.h"
+#include "vector_ops.h"
 
 std::ostream&
 operator<<(
@@ -53,9 +54,9 @@ solvers_1()
 }
 
 
-int main() {
-    V("- BEGIN -");
-
+void
+examples()
+{
     math4610::matrix<double> mat{
         3, 3,
         {
@@ -80,19 +81,54 @@ int main() {
     auto x = mat2.jacobi_solver(b);
     V(x);
 
+    math4610::matrix<double> mat3{
+        4, 4,
+        {
+            1, 2, 3, 4,
+            2, 5, 6, 7,
+            3, 6, 8, 9,
+            4, 7, 9, 1
+        }
+    };
+    V("Symmetric: " << mat3.is_symmetric());
+}
 
-    // solvers_1();
 
-    // math4610::matrix<double> mat{
-    //     4, 4,
-    //     {
-    //         1, 2, 3, 4,
-    //         2, 5, 6, 7,
-    //         3, 6, 8, 9,
-    //         4, 7, 9, 1
-    //     }
-    // };
-    // V("Symmetric: " << mat.is_symmetric());
+void
+jacobi_seidel_test()
+{
+    size_t n = 3;
+    double lower = -10.0;
+    double upper =  10.0;
+
+    std::vector<double> ones(n, 1);
+    std::vector<math4610::matrix<double>> tests{
+        math4610::matrix<double>::create_random(n, lower, upper, false, false),
+        math4610::matrix<double>::create_random(n, lower, upper, false, true),
+        math4610::matrix<double>::create_random(n, lower, upper, true, false),
+        math4610::matrix<double>::create_random(n, lower, upper, true, true)
+    };
+    std::vector<std::vector<double>> tests_b;
+    for (auto& mat : tests)
+        tests_b.push_back(mat * ones);
+    
+    for (size_t i = 0; i < tests.size(); i++) {
+        auto jacobi = tests[i].jacobi_solver(tests_b[i]);
+        auto seidel = tests[i].seidel_solver(tests_b[i]);
+        V(i << ":");
+        tests[i].print();
+        V("b: " << tests_b[i]);
+        V("j: " << jacobi);
+        V("s: " << seidel);
+        V("");
+    }
+}
+
+
+int main() {
+    V("- BEGIN -");
+
+    jacobi_seidel_test();
 
     V("- END OF LINE -");
     return 0;

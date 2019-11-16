@@ -74,36 +74,47 @@ Code can be written as follows:
                 data[span * n + offset] = data[offset * n + span];
     }
 
-    static inline void _S_make_diagonally_dominant(matrix* __mat)
+    static inline void _S_make_diagonally_dominant(
+        matrix* __mat,
+        bool    __symmetric,
+        T       __lower_bound,
+        T       __upper_bound)
     {
         auto& data = __mat->m_data;
         auto rows  = __mat->m_rows;
         auto cols  = __mat->m_cols;
         size_t n = std::min(rows, cols);
         for (size_t y = 0; y < n; y++) {
-            T sum = 0, a = 0;
-            if (data[y * cols + y] == 0) {
-                for (size_t x = 0; x < n; x++) {
-                    if (x == y) continue;
-                    auto& m = data[y * cols + x];
-                    if (m != 0) {
-                        a = std::abs(m);
-                        std::swap(m, data[y * cols + y]);
-                        break;
-                    }
+            if (data[y * cols + y] != 0) continue;
+            for (size_t x = 0; x < n; x++) {
+                if (x == y) continue;
+                auto& m = data[y * cols + x];
+                if (m != 0) {
+                    std::swap(m, data[y * cols + y]);
+                    if (__symmetric) data[x * cols + y] = 0;
+                    break;
                 }
             }
-            else a = std::abs(data[y * cols + y]);
+        }
+        for (size_t y = 0; y < n; y++) {
+            T sum = 0;
+            T a = std::abs(data[y * cols + y]);
             for (size_t x = 0; x < n; x++)
                 if (x != y) sum += std::abs(data[y * cols + x]);
             if (a < sum) {
-                double delta = (sum - a) / (double)n;
-                for (size_t x = 0; x < n; x++) {
-                    if (x == y) continue;
-                    auto& m = data[y * cols + x];
-                    if (m > 0) m = (T)(m - delta);
-                    else if (m < 0) m = (T)(m + delta);
-                    // else if (m == 0) do no modify
+                if (__symmetric) {
+                    auto& m = data[y * cols + y];
+                    m = sum * (m >= 0 ? 1 : -1);
+                }
+                else {
+                    double delta = (sum - a) / (double)n;
+                    for (size_t x = 0; x < n; x++) {
+                        if (x == y) continue;
+                        auto& m = data[y * cols + x];
+                        if (m > 0) m = (T)std::floor(m - delta);
+                        else if (m < 0) m = (T)std::floor(m + delta);
+                        // else if (m == 0) do no modify
+                    }
                 }
             }
         }

@@ -36,7 +36,7 @@ Code can be written to find the error:
         auto difference = subtract<T>(
             __approximate_vector,
             __exact_vector);
-        return norm<T>(difference, __p) / norm<T>(__exact_value);
+        return norm<T>(difference, __p) / norm<T>(__exact_vector, __p);
     }
 
 **Last Modified:** October/2019
