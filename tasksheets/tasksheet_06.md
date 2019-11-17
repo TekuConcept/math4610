@@ -27,5 +27,6 @@
 ## Task 9:
 * [jacobi-seidel-test](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp)
 
-## Task 10: TODO
-Search the internet for sites that document the use of Jacobi iteration and/or Gauss-Seidel. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
+## Task 10:
+http://mathfaculty.fullerton.edu/mathews/n2003/GaussSeidelMod.html
+Iterative linear system solving methods in general are typically reserved for large matrices. Common applications fall under non-polynomial-hard (NP-Hard) problems such as in circuit analysis. The Guess-Seidel method converges twice as fast as the Jacobi method. Iterations do not always converge though with these methods.
