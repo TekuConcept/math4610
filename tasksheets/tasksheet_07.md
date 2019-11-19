@@ -27,6 +27,5 @@ Implement a matrix multiplication routine for a tridiagonal matrix that avoids a
 ## Task 9: TODO
 Create an analogous routine where the matrix is penta-diagonal with two diagonals above and below the main diagonal of the matrix. Use 5 vectors to store the matrix. As always, document the method in your software manual.
 
-## Task 10: TODO
-Search the internet for sites that document the use of conjugate gradient methods. Write a brief paragraph (3 or 4 sentences) that describe your findings. Include links to the sites you cite.
-https://ocw.mit.edu/courses/mathematics/18-409-topics-in-theoretical-computer-science-an-algorithmists-toolkit-fall-2009/lecture-notes/MIT18_409F09_scribe21.pdf In some special cases, steepest descent will converge in one iteration. Depending on the gradient direction, convergance can be faster or slower if at all.
+## Task 10:
+https://en.wikipedia.org/wiki/Conjugate_gradient_method The conjugate gradient method is similar to steepest descent but is used for symmetric, positive definite matrices. The conjugate gradient method can converge in a number of iterations less than or equal to the size of the matrix when there is no round-off error. The method can be used for unconstrained optimization problems such as energy minimization.
