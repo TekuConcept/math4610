@@ -44,6 +44,8 @@
         "complex": "cpp",
         "cstring": "cpp",
         "ctime": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "numeric": "cpp",
+        "random": "cpp"
     }
 }

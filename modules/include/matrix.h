@@ -18,6 +18,8 @@
 
 #include <omp.h>
 
+#include "vector_ops.h"
+
 namespace math4610 {
 
     template <typename T>
@@ -48,6 +50,9 @@ namespace math4610 {
             m_data = data;
             m_data.resize(rows * cols);
         }
+        matrix(std::vector<T> data)
+        : m_rows(1), m_cols(data.size()), m_data(data)
+        { }
      	~matrix() = default;
 
         static matrix create_random(
@@ -106,6 +111,17 @@ namespace math4610 {
         const T* ptr(size_t idx) const
         { return &m_data[idx]; }
 
+        void reshape(
+            size_t __rows,
+            size_t __cols)
+        {
+            if ((__rows * __cols) != m_data.size())
+                throw std::runtime_error(
+                    "new area does not match old area");
+            m_rows = __rows;
+            m_cols = __cols;
+        }
+
         void resize(
             size_t rows,
             size_t cols)
@@ -149,6 +165,25 @@ namespace math4610 {
             return result;
         }
 
+        matrix operator*(const matrix& __right)
+        {
+            if (m_cols != __right.m_rows)
+                throw std::runtime_error(
+                    "cannot multiply matrices: invalid dimensions");
+            matrix result(m_rows, __right.m_cols);
+            size_t t = m_cols;
+            for (size_t u = 0; u < m_rows; u++) {
+                for (size_t v = 0; v < __right.m_cols; v++) {
+                    T sum = 0;
+                    for (size_t w = 0; w < t; w++)
+                        sum += m_data[u * m_cols + w] *
+                            __right.m_data[w * __right.m_cols + v];
+                    result.m_data[u * result.m_cols + v] = sum;
+                }
+            }
+            return result;
+        }
+
         void print() const
         {
             for (size_t row = 0; row < m_rows; row++) {
@@ -178,6 +213,42 @@ namespace math4610 {
             auto n = std::min(m_rows, m_cols);
             for (size_t i = 0; i < n; i++)
                 result.m_data[i * m_cols + i] = m_data[i * m_cols + i];
+            return result;
+        }
+
+        matrix transpose() const
+        {
+            matrix result(m_cols, m_rows);
+            for (size_t u = 0; u < m_rows; u++)
+                for (size_t v = 0; v < m_cols; v++)
+                    result.m_data[v * result.m_cols + u] =
+                        m_data[u * m_cols + v];
+            return result;
+        }
+
+        matrix inverse(T __tollerance = (T)1.0E-4) const
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+
+            size_t n = m_rows;
+            std::vector<size_t> indices(n);
+            std::vector<T> s(n);
+            std::vector<T> b(n);
+            std::vector<T> x(n);
+            matrix result(n, n);
+
+            if (!_M_inverter_decompose(__tollerance, &indices, &s))
+                throw std::runtime_error("ill-conditioned system");
+            for (size_t i = 0; i < n; i++) {
+                for (size_t j = 0; j < n; j++)
+                    b[j] = (i == j) ? 1 : 0;
+                _M_inverter_substitute(indices, &b, &x);
+                for (size_t j = 0; j < n; j++)
+                    result.m_data[j * n + i] = x[j];
+            }
+
             return result;
         }
 
@@ -399,6 +470,60 @@ namespace math4610 {
             return x;
         }
 
+        std::vector<T> steepest_descent(
+            const std::vector<T>& __b,
+            const std::vector<T>& __x = { })
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            if (m_rows != __b.size())
+                throw std::runtime_error(
+                    "matrix-vector size mismatch");
+            auto n = m_rows;
+            std::vector<T> x = __x;
+            if (x.size() != n) x.resize(n);
+            for (size_t c = 0; c < 1E3; c++) {
+                // r_(i+1) = r_i - a_i*r_i
+                auto r = subtract(__b, *this * x);
+                auto a = dot(r, r) / dot(r, *this * r);
+                auto z = add(x, scale(r, a));
+                if (allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                x = std::move(z);
+            }
+            return x;
+        }
+
+        std::vector<T> conjugate_gradient(
+            const std::vector<T>& __b,
+            const std::vector<T>& __x = { },
+            double                __tollerance = 1.0E-8)
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            if (m_rows != __b.size())
+                throw std::runtime_error(
+                    "matrix-vector size mismatch");
+            auto n = m_rows;
+            std::vector<T> x = __x;
+            if (x.size() != n) x.resize(n);
+            auto r = subtract(__b, *this * x);
+            auto p = r;
+            for (size_t c = 0; c < 1E3; c++) {
+                auto ap = *this * p;
+                auto r2 = dot(r, r);
+                auto alpha = r2 / dot(p, ap);
+                x = add(x, scale(p, alpha));
+                r = subtract(r, scale(ap, alpha));
+                auto r_norm = norm<T>(r, 2);
+                if (r_norm < __tollerance) break;
+                auto beta = dot(r, r) / r2;
+                p = add(r, scale(p, beta));
+            }
+            return x;
+        }
+
         std::vector<T> lu_solver(const std::vector<T>& __b) const
         {
             matrix upper, lower;
@@ -440,10 +565,10 @@ namespace math4610 {
             auto D = this->diagonal();
             auto R = (*this) - D;
             for (size_t c = 0; c < 1E3; c++) {
-                std::vector<T> z = _S_subtract(__b, R * x);
+                std::vector<T> z = subtract(__b, R * x);
                 for (size_t i = 0; i < x.size(); i++)
                     z[i] /= D.m_data[i * n + i];
-                if (_S_allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                if (allclose<T>(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
                 x = std::move(z);
             }
             return x;
@@ -472,7 +597,7 @@ namespace math4610 {
                         z[j] = d / m_data[j * n + j];
                     }
                 }
-                if (_S_allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                if (allclose<T>(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
                 x = std::move(z);
             }
             return x;
@@ -543,30 +668,78 @@ namespace math4610 {
             }
         }
 
-        bool _S_allclose(
-            std::vector<T> __a,
-            std::vector<T> __b,
-            T              __relative_error = (T)1E-3,
-            T              __absolute_error = (T)1E-3)
+        void _M_inverter_pivot(
+            std::vector<size_t>*  __indices,
+            const std::vector<T>& __s,
+            size_t                __k) const
         {
-            if (__a.size() != __b.size()) return false;
-            for (size_t i = 0; i < __a.size(); i++)
-                if (std::abs(__a[i] - __b[i]) >
-                    (__absolute_error + __relative_error * std::abs(__b[i])))
-                    return false;
-            return true;
+            auto n = m_rows;
+            auto& o = *__indices;
+            auto p = __k;
+            auto big = std::abs(m_data[o[__k] * n + __k] / __s[o[__k]]);
+            for (size_t ii = (__k + 1); ii < n; ii++) {
+                auto temp = std::abs(m_data[o[ii] * n + __k] / __s[o[ii]]);
+                if (temp > big) {
+                    big = temp;
+                    p = ii;
+                }
+            }
+            std::swap(o[p], o[__k]);
         }
 
-        std::vector<T>
-        _S_subtract(
-            const std::vector<T>& __lhs,
-            const std::vector<T>& __rhs)
+        // _M_inverter_substitute(indices, b, x);
+        void _M_inverter_substitute(
+            const std::vector<size_t>& __indices,
+            std::vector<T>*            __b,
+            std::vector<T>*            __x) const
         {
-            std::vector<T> result;
-            result.resize(__lhs.size());
-            for (size_t i = 0; i < result.size(); i++)
-                result[i] = __lhs[i] - __rhs[i];
-            return result;
+            auto n = m_rows;
+            auto& b = *__b;
+            auto& x = *__x;
+            auto& o = __indices;
+            for (size_t i = 1; i < n; i++) {
+                auto sum = b[o[i]];
+                for (size_t j = 0; j <= (i - 1); j++)
+                    sum -= m_data[o[i] * n + j] * b[o[j]];
+                b[o[i]] = sum;
+            }
+            x[n - 1] = b[o[n - 1]] / m_data[o[n - 1] * n + (n - 1)];
+            for (size_t i = n - 2; i >= 0; i--) {
+                T sum = 0;
+                for (size_t j = i + 1; j < n; j++)
+                    sum += m_data[o[i] * n + j] * x[j];
+                x[i] = (b[o[i]] - sum) / m_data[o[i] * + i];
+                if (i == 0) break;
+            }
+        }
+
+        bool _M_inverter_decompose(
+            T __tollerance,
+            std::vector<size_t>* __indices,
+            std::vector<T>*      __s) const
+        {
+            auto n = m_rows;
+            auto& o = *__indices;
+            auto& s = *__s;
+            for (size_t i = 0; i < n; i++) {
+                o[i] = i;
+                s[i] = std::abs(m_data[i * n]);
+                for (int j = 1; j < n; j++)
+                    if (std::abs(m_data[i * n + j]) > s[i])
+                        s[i] = std::abs(m_data[i * n + j]);
+            }
+            for (size_t k = 0; k < (n - 1); k++) {
+                _M_inverter_pivot(__indices, s, k);
+                if (std::abs(m_data[o[k] * n + k] / s[o[k]]) < __tollerance)
+                    return false;
+                for (size_t i = (k + 1); i < n; i++) {
+                    auto factor = m_data[o[i] * n + k] / m_data[o[k] * + k];
+                    m_data[o[i] * n + k] = factor;
+                    for (size_t j = (k + 1); j < n; j++)
+                        m_data[o[i] * n + j] -= factor * m_data[o[k] * n + j];
+                }
+            }
+            return true;
         }
 
         static bool _S_gauss(

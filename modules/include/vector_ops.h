@@ -12,7 +12,7 @@
 
 #include <omp.h>
 
-#include "matrix.h"
+// #include "matrix.h"
 
 namespace math4610 {
 
@@ -42,6 +42,23 @@ namespace math4610 {
         for (const auto& x : __v)
             sum += std::pow(x, __p);
         return std::pow(sum, 1 / __p);
+    }
+
+
+    template <typename T>
+    bool
+    allclose(
+        std::vector<T> __a,
+        std::vector<T> __b,
+        T              __relative_error = (T)1E-3,
+        T              __absolute_error = (T)1E-3)
+    {
+        if (__a.size() != __b.size()) return false;
+        for (size_t i = 0; i < __a.size(); i++)
+            if (std::abs(__a[i] - __b[i]) >
+                (__absolute_error + __relative_error * std::abs(__b[i])))
+                return false;
+        return true;
     }
 
 
@@ -144,27 +161,27 @@ namespace math4610 {
     }
 
 
-    template <typename T>
-    std::vector<T>
-    multiply(
-        const matrix<T>&      __A,
-        const std::vector<T>& __v)
-    {
-        if (__A.cols() != __v.size())
-            throw std::runtime_error(
-                "vector and matrix sizes do not match");
-        std::vector<T> result;
-        result.resize(__A.rows());
-        size_t y;
-        #pragma omp parallel for
-        for (y = 0; y < __A.rows(); y++) {
-            auto* row = __A.at(y, 0);
-            result[y] = 0;
-            for (size_t x = 0; x < __A.cols(); x++)
-                result[y] += row[x] * __v[x];
-        }
-        return result;
-    }
+    // template <typename T>
+    // std::vector<T>
+    // multiply(
+    //     const matrix<T>&      __A,
+    //     const std::vector<T>& __v)
+    // {
+    //     if (__A.cols() != __v.size())
+    //         throw std::runtime_error(
+    //             "vector and matrix sizes do not match");
+    //     std::vector<T> result;
+    //     result.resize(__A.rows());
+    //     size_t y;
+    //     #pragma omp parallel for
+    //     for (y = 0; y < __A.rows(); y++) {
+    //         auto* row = __A.at(y, 0);
+    //         result[y] = 0;
+    //         for (size_t x = 0; x < __A.cols(); x++)
+    //             result[y] += row[x] * __v[x];
+    //     }
+    //     return result;
+    // }
 
 
     template <typename T>
