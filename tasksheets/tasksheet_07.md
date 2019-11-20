@@ -3,23 +3,34 @@
 ## Task 1:
 * [steepest-descent](https://github.com/TekuConcept/math4610/blob/master/modules/doc/steepest_descent_matrix.md)
 
-## Task 2: TODO
-Tryout your steepest descent method on a sequence of matrices based on the Hilbert matrix. Start with `n = 4` and see how far you can go increasing `n`.
+## Task 2:
+* [steepest-descent-test](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp) (`n = 500` clocked at about two seconds to complete)
 
 ## Task 3:
 * [conjugate-gradient](https://github.com/TekuConcept/math4610/blob/master/modules/doc/conjugate_gradient_matrix.md)
 
-## Task 4: TODO
-As a test of the steepest descent method versus the conjugate gradient method, write code to do the following. First, generate a square symmetric diagonally dominant matrix - you have already created such a method. Then report the number of iterations required to produce a solution to the linear system. Generate the right hand side of the system of equations using `b = Av` where all the entries of `v` are 1.
+## Task 4:
+* [steepest-descent vs conjugate-gradient](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp)
+- steepest descent:   227
+- conjugate gradient: 999
 
-## Task 5: TODO
-Compare your results in Task 4 to the use of Gaussian Elimination with backsubstitution. Report the amount of time it takes to compute the solution of the linear system for steepest descent, the conjugate gradient method, and Gaussian elimination.
+## Task 5:
+* [steepest-descent vs conjugate-gradient vs guassian-elimination](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp)
+- steepest descent:     0.3032 ms
+- conjugate gradient:   4.4210 ms
+- gaussian elimination: 0.0155 ms
 
-## Task 6: TODO
-Repeat the work in Task 5 but use Jacobi iteration instead of Gaussian elimination. Again, which runs faster.
+## Task 6:
+* [steepest-descent vs conjugate-gradient vs jacobi](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp)
+- steepest descent:     1.4440 ms
+- conjugate gradient:   3.6270 ms
+- jacobi:               0.3691 ms
 
-## Task 7: TODO
-Repeat Task 6 using Gauss-Seidel instead of Jacobi Iteration.
+## Task 7:
+* [steepest-descent vs conjugate-gradient vs gauss-seidel](https://github.com/TekuConcept/math4610/blob/master/modules/test/matrix_test.cpp)
+- steepest descent:     1.44400 ms
+- conjugate gradient:   3.62700 ms
+- gauss-seidel:         0.08211 ms
 
 ## Task 8: TODO
 Implement a matrix multiplication routine for a tridiagonal matrix that avoids as many computations with zeros as possible. Use the vector form of matrix storage to store the three nonzero diagonals. Create a software manual page for the method.

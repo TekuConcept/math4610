@@ -3,6 +3,7 @@
  */
 
 #include <iostream>
+#include <chrono>
 
 #define V(x) std::cout << x << std::endl
 
@@ -125,10 +126,100 @@ jacobi_seidel_test()
 }
 
 
+void gradient_tests()
+{
+    { // Task 2
+        size_t n = 4;
+        auto mat = math4610::matrix<double>::create_hilbert(n, n);
+        std::vector<double> x(n, 1);
+        std::vector<double> b = mat * x;
+        std::vector<double> xp = mat.steepest_descent(b);
+        mat.print();
+        V("");
+        V("b:  " << b);
+        V("x:  " << x);
+        V("xp: " << xp << "\n");
+    }
+
+    { // Task 4
+        size_t n = 4;
+        auto mat = math4610::matrix<double>::create_random(
+            n, -10.0, 10.0, true, true);
+        mat.print();
+        std::vector<double> x(n, 1);
+        std::vector<double> b = mat * x;
+        std::vector<double> xp;
+        V("");
+        V("b: " << b);
+        V("x: " << x);
+        xp = mat.steepest_descent(b);
+        V("steepest descent:     " << xp);
+        xp = mat.conjugate_gradient(b);
+        V("conjugate gradient:   " << xp);
+        V("");
+    }
+
+    { // Task 5, 6, 7
+        size_t n = 4;
+        auto mat = math4610::matrix<double>::create_random(
+            n, -10.0, 10.0, true, true);
+        mat.print();
+        std::vector<double> x(n, 1);
+        std::vector<double> b = mat * x;
+        std::vector<double> xp;
+        V("");
+        V("b: " << b);
+        V("x: " << x);
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            xp = mat.steepest_descent(b);
+            auto end   = std::chrono::high_resolution_clock::now();
+            auto duration =
+                std::chrono::duration<double, std::milli>(end - start).count();
+            V("steepest descent:     " << duration);
+        }
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            xp = mat.conjugate_gradient(b);
+            auto end   = std::chrono::high_resolution_clock::now();
+            auto duration =
+                std::chrono::duration<double, std::milli>(end - start).count();
+            V("conjugate gradient:   " << duration);
+        }
+        try {
+            auto start = std::chrono::high_resolution_clock::now();
+            xp = mat.gauss_elimination(b);
+            auto end   = std::chrono::high_resolution_clock::now();
+            auto duration =
+                std::chrono::duration<double, std::milli>(end - start).count();
+            V("gaussian elimination: " << duration);
+        } catch (...) {}
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            xp = mat.jacobi_solver(b);
+            auto end   = std::chrono::high_resolution_clock::now();
+            auto duration =
+                std::chrono::duration<double, std::milli>(end - start).count();
+            V("jacobi: " << duration);
+        }
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            xp = mat.seidel_solver(b);
+            auto end   = std::chrono::high_resolution_clock::now();
+            auto duration =
+                std::chrono::duration<double, std::milli>(end - start).count();
+            V("gauss-seidel: " << duration);
+        }
+        V("");
+    }
+}
+
+
 int main() {
     V("- BEGIN -");
 
     jacobi_seidel_test();
+    gradient_tests();
 
     V("- END OF LINE -");
     return 0;

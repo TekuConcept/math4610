@@ -87,6 +87,17 @@ namespace math4610 {
             return result;
         }
 
+        static matrix create_hilbert(
+            size_t __rows,
+            size_t __cols)
+        {
+            matrix result(__rows, __cols);
+            for (size_t i = 0; i < __rows; i++)
+                for (size_t j = 0; j < __cols; j++)
+                    result.m_data[i * __cols + j] = 1 / (T)(i + j + 1);
+            return result;
+        }
+
         T* data() { return m_data.data(); }
         bool empty() { return m_data.size() == 0; }
         size_t rows() const { return m_rows; }
@@ -472,7 +483,8 @@ namespace math4610 {
 
         std::vector<T> steepest_descent(
             const std::vector<T>& __b,
-            const std::vector<T>& __x = { })
+            const std::vector<T>& __x = { },
+            size_t                __iterations = 1E3)
         {
             if (m_rows != m_cols)
                 throw std::runtime_error(
@@ -483,12 +495,12 @@ namespace math4610 {
             auto n = m_rows;
             std::vector<T> x = __x;
             if (x.size() != n) x.resize(n);
-            for (size_t c = 0; c < 1E3; c++) {
+            for (size_t c = 0; c < __iterations; c++) {
                 // r_(i+1) = r_i - a_i*r_i
                 auto r = subtract(__b, *this * x);
                 auto a = dot(r, r) / dot(r, *this * r);
                 auto z = add(x, scale(r, a));
-                if (allclose(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
+                if (allclose<double>(x, z, /*rtol=*/0, /*atol=*/1E-10)) break;
                 x = std::move(z);
             }
             return x;
@@ -497,6 +509,7 @@ namespace math4610 {
         std::vector<T> conjugate_gradient(
             const std::vector<T>& __b,
             const std::vector<T>& __x = { },
+            size_t                __iterations = 1E3,
             double                __tollerance = 1.0E-8)
         {
             if (m_rows != m_cols)
@@ -510,7 +523,7 @@ namespace math4610 {
             if (x.size() != n) x.resize(n);
             auto r = subtract(__b, *this * x);
             auto p = r;
-            for (size_t c = 0; c < 1E3; c++) {
+            for (size_t c = 0; c < __iterations; c++) {
                 auto ap = *this * p;
                 auto r2 = dot(r, r);
                 auto alpha = r2 / dot(p, ap);
