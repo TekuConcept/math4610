@@ -41,7 +41,7 @@ namespace math4610 {
         T sum = 0;
         for (const auto& x : __v)
             sum += std::pow(x, __p);
-        return std::pow(sum, 1 / __p);
+        return std::pow(sum, 1.0 / __p);
     }
 
 

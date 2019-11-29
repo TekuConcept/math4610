@@ -215,11 +215,54 @@ void gradient_tests()
 }
 
 
+void power_test()
+{
+    // { // Task 1
+    //     auto A = math4610::matrix<double>::create_random(
+    //         /*size=*/4,
+    //         /*lower_bound=*/-10.0,
+    //         /*upper_bound=*/10.0,
+    //         /*symmetric=*/true,
+    //         /*diagonally_dominant=*/true
+    //     );
+    //     A.print();
+    //     V('\n' << A.power_iteration() << '\n');
+    // }
+
+    // { // Task 2
+    //     auto A = math4610::matrix<double>::create_hilbert(
+    //         /*rows=*/10, /*cols=*/10);
+    //     A.print();
+    //     V('\n' << A.power_iteration() << '\n');
+    // }
+
+    // { // Task 3
+    //     auto A = math4610::matrix<double>::create_random(
+    //         /*size=*/4,
+    //         /*lower_bound=*/-10.0,
+    //         /*upper_bound=*/10.0,
+    //         /*symmetric=*/true,
+    //         /*diagonally_dominant=*/true
+    //     );
+    //     A.print();
+    //     V('\n' << A.inverse_power_iteration(0) << '\n');
+    // }
+
+    { // Task 4
+        auto A = math4610::matrix<double>::create_hilbert(
+            /*rows=*/10, /*cols=*/10);
+        A.print();
+        V('\n' << A.inverse_power_iteration() << '\n');
+    }
+}
+
+
 int main() {
     V("- BEGIN -");
 
-    jacobi_seidel_test();
-    gradient_tests();
+    // jacobi_seidel_test();
+    // gradient_tests();
+    power_test();
 
     V("- END OF LINE -");
     return 0;

@@ -98,6 +98,14 @@ namespace math4610 {
             return result;
         }
 
+        static matrix identity(size_t __size)
+        {
+            matrix result(__size, __size);
+            for (size_t i = 0; i < __size; i++)
+                result.m_data[i * __size + i] = 1;
+            return result;
+        }
+
         T* data() { return m_data.data(); }
         bool empty() { return m_data.size() == 0; }
         size_t rows() const { return m_rows; }
@@ -192,6 +200,14 @@ namespace math4610 {
                     result.m_data[u * result.m_cols + v] = sum;
                 }
             }
+            return result;
+        }
+
+        matrix operator*(const T& __right)
+        {
+            matrix result = *this;
+            for (auto& c : result.m_data)
+                c *= __right;
             return result;
         }
 
@@ -535,6 +551,63 @@ namespace math4610 {
                 p = add(r, scale(p, beta));
             }
             return x;
+        }
+
+        std::vector<T> power_iteration(
+            const std::vector<T> __x          = { },
+            size_t               __iterations = 1E3,
+            double               __tollerance = 1.0E-8)
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            std::vector<T> y = __x;
+            y.resize(m_cols);
+            if (__x.size() == 0) {
+                auto uniform = std::uniform_int_distribution<>{ -10, 10 };
+                for (auto& c : y) c = (T)uniform(s_random_engine);
+            }
+            for (size_t i = 0; i < __iterations; i++) {
+                auto n = norm<T>(y, 2);
+                auto v = scale(y, 1 / n); // eigenvector
+                y = *this * v;
+                auto theta = dot<T>(v, y); // eigenvalue
+                auto gamma = subtract<T>(y, scale<T>(v, theta));
+                auto threshold = std::abs(theta) * __tollerance;
+                if (norm<T>(gamma, 2) <= threshold) break;
+            }
+            return y;
+        }
+
+        std::vector<T> inverse_power_iteration(
+            const T              __sigma      = 0,
+            const std::vector<T> __x          = { },
+            size_t               __iterations = 1E3,
+            double               __tollerance = 1.0E-8)
+        {
+            if (m_rows != m_cols)
+                throw std::runtime_error(
+                    "non-square matrices not supported");
+            matrix I = identity(m_rows);
+            std::vector<T> y = __x;
+            y.resize(m_cols);
+            if (__x.size() == 0) {
+                auto uniform = std::uniform_int_distribution<>{ -10, 10 };
+                for (auto& c : y) c = (T)uniform(s_random_engine);
+            }
+            for (size_t i = 0; i < __iterations; i++) {
+                auto n = norm<T>(y, 2);
+                auto v = scale(y, 1 / n);
+                auto G = *this - (I * __sigma);
+                y = G.rref(v);
+                auto theta = dot<T>(v, y);
+                auto gamma = subtract<T>(y, scale<T>(v, theta));
+                auto threshold = std::abs(theta) * __tollerance;
+                if (norm<T>(gamma, 2) <= threshold) break;
+            }
+            return y;
+            // eigenvalue: sigma + 1 / theta
+            // eigenvector: y / theta
         }
 
         std::vector<T> lu_solver(const std::vector<T>& __b) const

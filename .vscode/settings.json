@@ -46,6 +46,8 @@
         "ctime": "cpp",
         "iomanip": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp"
     }
 }
